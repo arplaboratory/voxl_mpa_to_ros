@@ -143,21 +143,21 @@ static void _helper_cb(__attribute__((unused))int ch, char* data, int bytes, voi
         R.getRotation(q);
 
         poseMsg.pose.position.x = data.T_imu_wrt_vio[0];
-        poseMsg.pose.position.y = data.T_imu_wrt_vio[1];
-        poseMsg.pose.position.z = data.T_imu_wrt_vio[2];
+        poseMsg.pose.position.y = -data.T_imu_wrt_vio[1];
+        poseMsg.pose.position.z = -data.T_imu_wrt_vio[2];
         poseMsg.pose.orientation.x = q.getX();
-        poseMsg.pose.orientation.y = q.getY();
-        poseMsg.pose.orientation.z = q.getZ();
+        poseMsg.pose.orientation.y = -q.getY();
+        poseMsg.pose.orientation.z = -q.getZ();
         poseMsg.pose.orientation.w = q.getW();
         posePublisher.publish(poseMsg);
 
         odomMsg.pose.pose = poseMsg.pose;
         odomMsg.twist.twist.linear.x = data.vel_imu_wrt_vio[0];
-        odomMsg.twist.twist.linear.y = data.vel_imu_wrt_vio[1];
-        odomMsg.twist.twist.linear.z = data.vel_imu_wrt_vio[2];
+        odomMsg.twist.twist.linear.y = -data.vel_imu_wrt_vio[1];
+        odomMsg.twist.twist.linear.z = -data.vel_imu_wrt_vio[2];
         odomMsg.twist.twist.angular.x = data.imu_angular_vel[0];
-        odomMsg.twist.twist.angular.y = data.imu_angular_vel[1];
-        odomMsg.twist.twist.angular.z = data.imu_angular_vel[2];
+        odomMsg.twist.twist.angular.y = -data.imu_angular_vel[1];
+        odomMsg.twist.twist.angular.z = -data.imu_angular_vel[2];
 
         odomPublisher.publish(odomMsg);
     }
