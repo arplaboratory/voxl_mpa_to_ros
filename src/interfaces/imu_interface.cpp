@@ -114,13 +114,14 @@ static void _helper_cb(__attribute__((unused))int ch, char* data, int bytes, voi
 
         /** @brief Vivek updated below this to use ROS time instead */
         double time_ns = data_array[i].timestamp_ns;
-        if(TimeManager::getInstance().timeOffsetNs() == 0)
-        {
-            TimeManager::getInstance().timeOffsetNs(ros::Time::now().toNSec() - time_ns);
-        }
-        TimeManager::getInstance().updateOffsetLPF(ros::Time::now().toNSec() - time_ns);
-        imu.header.stamp.fromNSec(TimeManager::getInstance().timeOffsetNs() + time_ns);
-        /** @brief Vivek updated above this to use ROS time instead */
+        //if(TimeManager::getInstance().timeOffsetNs() == 0)
+        //{
+        //    TimeManager::getInstance().timeOffsetNs(ros::Time::now().toNSec() - time_ns);
+        //}
+        //TimeManager::getInstance().updateOffsetLPF(ros::Time::now().toNSec() - time_ns);
+        //imu.header.stamp.fromNSec(TimeManager::getInstance().timeOffsetNs() + time_ns);
+        imu.header.stamp = _clock_monotonic_to_ros_time(time_ns);
+	/** @brief Vivek updated above this to use ROS time instead */
         //imu.header.stamp = (_clock_monotonic_to_ros_time(data_array[i].timestamp_ns));
         imu.angular_velocity.x = data_array[i].gyro_rad[0];
         imu.angular_velocity.y = -data_array[i].gyro_rad[1];
