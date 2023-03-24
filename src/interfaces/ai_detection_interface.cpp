@@ -109,12 +109,14 @@ static void _helper_cb(__attribute__((unused))int ch, char* data, int bytes, voi
 
     /** @brief Vivek updated below this to use ROS time instead */
     double time_ns = detection.timestamp_ns;
-    if(TimeManager::getInstance().timeOffsetNs() == 0)
-    {
-        TimeManager::getInstance().timeOffsetNs(ros::Time::now().toNSec() - time_ns);
-    }
-    TimeManager::getInstance().updateOffsetLPF(ros::Time::now().toNSec() - time_ns);
-    obj.timestamp_ns = TimeManager::getInstance().timeOffsetNs() + time_ns;
+    //if(TimeManager::getInstance().timeOffsetNs() == 0)
+    //{
+     //   TimeManager::getInstance().timeOffsetNs(ros::Time::now().toNSec() - time_ns);
+    //}
+    //TimeManager::getInstance().updateOffsetLPF(ros::Time::now().toNSec() - time_ns);
+    obj.timestamp_ns = _clock_monotonic_to_ros_time(time_ns).toNSec();
+
+    //obj.timestamp_ns = TimeManager::getInstance().timeOffsetNs() + time_ns;
     /** @brief Vivek updated above this to use ROS time instead */
 
     //publish the sample

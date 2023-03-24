@@ -99,13 +99,14 @@ static void _frame_cb(
 
     /** @brief Vivek updated below this to use ROS time instead */
     double time_ns = meta.timestamp_ns;
-    if(TimeManager::getInstance().timeOffsetNs() == 0)
-    {
-        TimeManager::getInstance().timeOffsetNs(ros::Time::now().toNSec() - time_ns);
-    }
-    TimeManager::getInstance().updateOffsetLPF(ros::Time::now().toNSec() - time_ns);
-    img.header.stamp.fromNSec(TimeManager::getInstance().timeOffsetNs() + time_ns);//(_clock_monotonic_to_ros_time( meta.timestamp_ns));
+    //if(TimeManager::getInstance().timeOffsetNs() == 0)
+    //{
+      //  TimeManager::getInstance().timeOffsetNs(ros::Time::now().toNSec() - time_ns);
+    //}
+    //TimeManager::getInstance().updateOffsetLPF(ros::Time::now().toNSec() - time_ns);
+    //img.header.stamp.fromNSec(TimeManager::getInstance().timeOffsetNs() + time_ns);//(_clock_monotonic_to_ros_time( meta.timestamp_ns));
     /** @brief Vivek updated above this to use ROS time instead */
+            img.header.stamp = _clock_monotonic_to_ros_time(time_ns);
 
     img.width    = meta.width;
     img.height   = meta.height;
